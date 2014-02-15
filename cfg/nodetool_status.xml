@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<input>
+    <!--Datacenter label-->
+    <line match="^Datacenter: (.+)">
+        <part colour="default">1</part>
+    </line>
+
+    <!-- UP NORMAL -->
+    <line match="^(UN)(.+)">
+        <part colour="green">1</part>
+        <part colour="default">2</part>
+    </line>
+
+    <!-- UP NOT NORMAL -->
+    <line match="^(U[^N])(.+)" colour="yellow"/>
+
+    <!--DOWN-->
+    <line match="^(D[A-Z])(.+)" colour="red"/>
+</input>

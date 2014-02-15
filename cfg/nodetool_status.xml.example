@@ -1,0 +1,31 @@
+xss =  -ea -javaagent:/usr/share/cassandra/lib/jamm-0.2.5.jar -XX:+UseThreadPriorities -XX:ThreadPriorityPolicy=42 -Xms3971M -Xmx3971M -Xmn800M -XX:+HeapDumpOnOutOfMemoryError -Xss256k
+Datacenter: DC1
+======================
+Status=Up/Down
+|/ State=Normal/Leaving/Joining/Moving
+--  Address      Load       Tokens  Owns   Host ID                               Rack
+UN  10.0.200.9   26.11 GB   256     5.4%   613d2143-0829-4fcc-8614-c2aa24007805  I6
+UL  10.0.201.5   29.42 GB   256     5.1%   eb1b2b11-6856-4562-9c7c-03862fb5480f  G0
+DN  10.0.202.8   32.29 GB   256     5.1%   7ecc8db9-9e9e-4000-98f4-e2441744a94b  I7
+DL  10.0.203.6   25.27 GB   256     4.5%   114ba6d6-2c4e-4dd5-8cac-96725ec9a6ed  I6
+UN  10.0.204.2   23.45 GB   256     4.7%   2cd68350-3dd3-4572-941e-59c23cc1e2bf  I6
+UN  10.0.205.7   31.75 GB   256     4.8%   441b202b-5c10-40d0-b9d4-b62dc45cd5b2  I8
+UN  10.0.206.10  37.39 GB   256     4.8%   562ba632-ec7c-487b-9bee-a3b5601f3366  I8
+UN  10.0.207.4   26.61 GB   256     5.4%   68b5c3aa-2c16-402f-a748-7ea4a8f9531c  I6
+UN  10.0.208.3   28.26 GB   256     4.9%   90be28e0-9a8f-42d5-a1ea-e342e6c7803b  G4
+UN  10.0.209.1   27.41 GB   256     5.4%   4cedfb5c-b885-4c3c-9f0d-a5d2e83765bf  I6
+Datacenter: DC2
+==================
+Status=Up/Down
+|/ State=Normal/Leaving/Joining/Moving
+--  Address      Load       Tokens  Owns   Host ID                               Rack
+UN  10.2.245.4   27.52 GB   256     5.0%   8c704c5f-f594-47f4-8ed2-02b98d524d2a  5AB
+UN  10.2.245.1   27.72 GB   256     5.1%   d66f7283-91fd-417a-93d2-a30c21ac4a5f  5AE
+UN  10.2.245.2   25.89 GB   256     5.0%   5afa121f-d3fa-4fe3-a5e8-760272140a8f  5AA
+UN  10.2.245.3   24.4 GB    256     5.1%   79d4e614-d788-4c04-830c-9d202c8046c2  5AB
+UN  10.2.245.10  26.81 GB   256     4.6%   0e7b030a-bea2-4244-a563-e3f104fa1eef  6AC
+UN  10.2.245.7   28.39 GB   256     5.2%   4b54fe43-e7ab-460c-9521-11b77bdf9d7b  6AB
+UN  10.2.245.9   25.16 GB   256     4.8%   496bcf9a-a9a2-485b-84cb-0d7de8b0d1e3  6AC
+UN  10.2.245.6   24.76 GB   256     4.9%   600fc7aa-02e6-49f1-a925-0cb696cab08d  5AE
+UN  10.2.245.5   27.05 GB   256     5.0%   7d6f3a74-2a0d-436f-b41e-4c7ea876fd85  5AA
+UN  10.2.245.8   28.52 GB   256     5.2%   314e4cf3-d063-414e-96c5-e1ae04f71b88  6AC
