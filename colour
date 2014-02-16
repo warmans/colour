@@ -1,0 +1,115 @@
+#!/usr/bin/python
+__author__ = 'warmans'
+
+import xml.etree.ElementTree as ET
+import argparse
+import sys
+import re
+
+
+class Formatter():
+
+    def __init__(self, config_path):
+        self.config_path = config_path
+
+    def get_format(self, fg_name='default', bg_name='default', style_name='normal'):
+
+        background = {
+            'black': '40',
+            'red': '41',
+            'green': '42',
+            'yellow': '43',
+            'blue': '44',
+            'magenta': '45',
+            'cyan': '46',
+            'white': '47',
+            'default': '49'
+        }
+        foreground = {
+            'black': '30',
+            'red': '31',
+            'green': '32',
+            'yellow': '33',
+            'blue': '34',
+            'magenta': '35',
+            'cyan': '36',
+            'white': '37',
+            'default': '39',
+        }
+        styles = {
+            'normal': '0',
+            'bold': '1',
+            'dim': '2',
+            'underline': '4',
+            'blink': '5'
+        }
+
+        fg_colour = foreground[fg_name] if (fg_name in foreground.keys()) else foreground['default']
+        bg_colour = background[fg_name] if (bg_name in background.keys()) else background['default']
+        style = styles[style_name] if (style_name in styles.keys()) else styles['normal']
+
+        return '\033['+style+';'+fg_colour+';'+bg_colour+'m{0}\033[0m'
+
+    #parse output
+    def format(self, input_stream):
+
+        #read config
+        config = ET.parse(self.config_path)
+
+        #parse input stream using config
+        for line in input_stream:
+            for line_style in config.getroot():
+
+                formatted_line = ''
+                matches = re.match(line_style.attrib['match'], line)
+
+                if 'colour' in line_style.attrib.keys():
+                    outer_style = self.get_format(
+                        line_style.attrib['colour'] if 'colour' in line_style.attrib.keys() else None,
+                        line_style.attrib['background'] if 'background' in line_style.attrib.keys() else None,
+                        line_style.attrib['style'] if 'style' in line_style.attrib.keys() else None,
+                    )
+                else:
+                    outer_style = '{0}'
+
+                if matches:
+                    #if no sub-strings are defined output the whole line
+                    if len(list(line_style)) > 0:
+                        for substr in line_style:
+                            match = int(substr.text)
+                            style = self.get_format(
+                                substr.attrib['colour'] if 'colour' in substr.attrib.keys() else None,
+                                substr.attrib['background'] if 'background' in substr.attrib.keys() else None,
+                                substr.attrib['style'] if 'style' in substr.attrib.keys() else None,
+                            )
+                            formatted_line = formatted_line + style.format(matches.group(match))
+                    else:
+                        formatted_line = line.strip()
+
+                    print outer_style.format(formatted_line)
+
+
+if __name__ == '__main__':
+
+    #handle args
+    parser = argparse.ArgumentParser()
+    parser.add_argument("input", default=None, nargs='?')
+    parser.add_argument("-c", "--cfg", nargs='?')
+    args = parser.parse_args()
+
+    #create formatter
+    formatter = Formatter(args.cfg)
+
+    # pipe
+    if not sys.stdin.isatty():
+        formatter.format(sys.stdin)
+
+    # file
+    else:
+        input_filename = args.input
+
+        if not input_filename:
+            raise Exception('No pipe or file specified')
+
+        with open(input_filename, 'rU') as input_stream:
+            formatter.format(input_stream)

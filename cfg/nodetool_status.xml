@@ -15,5 +15,5 @@
     <line match="^(U[^N])(.+)" colour="yellow"/>
 
     <!--DOWN-->
-    <line match="^(D[A-Z])(.+)" colour="red"/>
+    <line match="^(D[A-Z])(.+)"  style="bold" colour="red"/>
 </input>

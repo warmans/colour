@@ -45,4 +45,4 @@ will colour down nodes fully red, non-normal nodes fully yellow and just the sta
 
 ## Usage
 
-    nodetool status | python colour.py --cfg=cfg/nodetool_status.xml
+    nodetool status | ./colour --cfg=cfg/nodetool_status.xml

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<input>
+    <!--Node label-->
+    <line match="^/([0-9\.]+)">
+        <part colour="default" style="bold">1</part>
+    </line>
+
+    <line match="^\s+(SEVERITY:)([0-1]+\.[0-9]+)">
+        <part colour="default" style="dim">1</part>
+        <part colour="green">2</part>
+    </line>
+    <line match="^\s+(SEVERITY:)([2-9]+\.[0-9]+)">
+        <part colour="default" style="dim">1</part>
+        <part colour="yellow">2</part>
+    </line>
+</input>
