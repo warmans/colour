@@ -12,7 +12,11 @@ class Formatter():
     def __init__(self, config_path):
         self.config_path = config_path
 
-    def get_format(self, fg_name='default', bg_name='default', style_name='normal'):
+    def get_style(self, attributes):
+
+        fg_name = attributes['colour'] if 'colour' in attributes.keys() else 'default'
+        bg_name = attributes['background'] if 'background' in attributes.keys() else 'default'
+        set_name = attributes['style'] if 'style' in attributes.keys() else 'normal'
 
         background = {
             'black': '40',
@@ -36,7 +40,7 @@ class Formatter():
             'white': '37',
             'default': '39',
         }
-        styles = {
+        sets = {
             'normal': '0',
             'bold': '1',
             'dim': '2',
@@ -45,10 +49,10 @@ class Formatter():
         }
 
         fg_colour = foreground[fg_name] if (fg_name in foreground.keys()) else foreground['default']
-        bg_colour = background[fg_name] if (bg_name in background.keys()) else background['default']
-        style = styles[style_name] if (style_name in styles.keys()) else styles['normal']
+        bg_colour = background[bg_name] if (bg_name in background.keys()) else background['default']
+        set = sets[set_name] if (set_name in sets.keys()) else sets['normal']
 
-        return '\033['+style+';'+fg_colour+';'+bg_colour+'m{0}\033[0m'
+        return '\033['+set+';'+fg_colour+';'+bg_colour+'m{0}\033[0m'
 
     #parse output
     def format(self, input_stream):
@@ -62,27 +66,14 @@ class Formatter():
 
                 formatted_line = ''
                 matches = re.match(line_style.attrib['match'], line)
-
-                if 'colour' in line_style.attrib.keys():
-                    outer_style = self.get_format(
-                        line_style.attrib['colour'] if 'colour' in line_style.attrib.keys() else None,
-                        line_style.attrib['background'] if 'background' in line_style.attrib.keys() else None,
-                        line_style.attrib['style'] if 'style' in line_style.attrib.keys() else None,
-                    )
-                else:
-                    outer_style = '{0}'
+                outer_style = self.get_style(line_style.attrib) if ('colour' in line_style.attrib.keys()) else '{0}'
 
                 if matches:
                     #if no sub-strings are defined output the whole line
                     if len(list(line_style)) > 0:
-                        for substr in line_style:
-                            match = int(substr.text)
-                            style = self.get_format(
-                                substr.attrib['colour'] if 'colour' in substr.attrib.keys() else None,
-                                substr.attrib['background'] if 'background' in substr.attrib.keys() else None,
-                                substr.attrib['style'] if 'style' in substr.attrib.keys() else None,
-                            )
-                            formatted_line = formatted_line + style.format(matches.group(match))
+                        for part in line_style:
+                            match = int(part.text)
+                            formatted_line = formatted_line + self.get_style(part.attrib).format(matches.group(match))
                     else:
                         formatted_line = line.strip()
 
