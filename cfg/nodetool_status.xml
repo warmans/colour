@@ -1,19 +1,19 @@
 <?xml version="1.0"?>
 <input>
     <!--Datacenter label-->
-    <line match="^Datacenter: (.+)">
+    <line match="^Datacenter: (.+\n)">
         <part colour="default">1</part>
     </line>
 
     <!-- UP NORMAL -->
-    <line match="^(UN)(.+)">
+    <line match="^(UN)(.+\n)">
         <part colour="green">1</part>
         <part colour="default">2</part>
     </line>
 
     <!-- UP NOT NORMAL -->
-    <line match="^(U[^N])(.+)" colour="yellow"/>
+    <line match="^(U[^N])(.+\n)" colour="yellow"/>
 
     <!--DOWN-->
-    <line match="^(D[A-Z])(.+)"  style="bold" colour="red"/>
+    <line match="^(D[A-Z])(.+\n)"  style="bold" colour="red"/>
 </input>

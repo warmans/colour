@@ -73,11 +73,12 @@ class Formatter():
                     if len(list(line_style)) > 0:
                         for part in line_style:
                             match = int(part.text)
-                            formatted_line = formatted_line + self.get_style(part.attrib).format(matches.group(match))
+			    append = part.attrib['append'] if 'append' in part.attrib.keys() else ''
+                            formatted_line = (formatted_line + self.get_style(part.attrib) + append).format(matches.group(match))
                     else:
-                        formatted_line = line.strip()
+                        formatted_line = line
 
-                    print outer_style.format(formatted_line)
+                    sys.stdout.write(outer_style.format(formatted_line))
 
 
 if __name__ == '__main__':
